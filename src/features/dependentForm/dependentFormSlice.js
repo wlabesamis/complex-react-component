@@ -17,7 +17,7 @@ const dependentFormSlice = createSlice({
     updateInputData: (state, action) => {
       const { id, field, value } = action.payload;
       const input = state.formInputs.find((input) => input.id === action.payload.id);
-      console.log(input)
+
       if (input) {
         input[field] = value;
       }
