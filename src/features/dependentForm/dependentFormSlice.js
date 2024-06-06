@@ -24,10 +24,7 @@ const dependentFormSlice = createSlice({
     },
     resetForm: state => {
       state.formInputs = [];
-    },
-    setValue: (state, action) => {
-      state.value = action.payload;
-    },
+    }
   },
 });
 

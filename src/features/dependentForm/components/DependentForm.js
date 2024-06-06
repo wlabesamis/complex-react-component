@@ -1,6 +1,6 @@
-import { useEffect, React } from 'react';
+import { React } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addInput, removeInput, updateInputData, setValue } from '../../dependentForm/dependentFormSlice';
+import { addInput, removeInput, updateInputData, resetForm } from '../../dependentForm/dependentFormSlice';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 
@@ -8,14 +8,6 @@ import Button from '../../../components/Button';
 const DependentForm = () => {
   const dispatch = useDispatch();
   const formInputs = useSelector(state => state.dependentForm.formInputs);
-
-  // Set initial value from sessionStorage if available
-  useEffect(() => {
-    const savedState = JSON.parse(sessionStorage.getItem('state'));
-    if (savedState && savedState.dependentForm) {
-      dispatch(setValue(savedState.dependentForm));
-    }
-  }, [dispatch]);
 
   const handleAddInput = () => {
     dispatch(addInput({ id: Date.now().toString(), name: '', age: '' }));
@@ -27,6 +19,10 @@ const DependentForm = () => {
 
   const handleChange = (e) => {
     dispatch(updateInputData({ id: e.target.id, field: e.target.name, value: e.target.value }));
+  };
+
+  const handleReset = () => {
+    dispatch(resetForm());
   };
 
 
@@ -54,16 +50,14 @@ const DependentForm = () => {
             onChange={handleChange}
             data-testid={`input-age-${input.id}`}
           />
-          {formInputs.length > 1 && index !== 0 && (
-            <Button
-              name={`remove_${input.id}`}
-              type="button"
-              onClick={() => handleRemoveInput(input.id)}
-              data-testid={`remove-button-${input.id}`}
-            >
-              Remove
-            </Button>
-          )}
+          <Button
+            name={`remove_${input.id}`}
+            type="button"
+            onClick={() => handleRemoveInput(input.id)}
+            data-testid={`remove-button-${input.id}`}
+          >
+            Remove
+          </Button>
         </div>
       ))}
       <Button
@@ -73,6 +67,14 @@ const DependentForm = () => {
         data-testid="add-button"
       >
         Add
+      </Button>
+      <Button
+        name={`reset-button`}
+        type="button"
+        onClick={handleReset}
+        data-testid={`reeset-button`}
+      >
+        Reset
       </Button>
     </div>
   );
