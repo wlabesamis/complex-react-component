@@ -25,8 +25,11 @@ const dependentFormSlice = createSlice({
     resetForm: state => {
       state.formInputs = [];
     },
+    setValue: (state, action) => {
+      state.value = action.payload;
+    },
   },
 });
 
-export const { addInput, removeInput, updateInputData, resetForm } = dependentFormSlice.actions;
+export const { addInput, removeInput, updateInputData, resetForm, setValue } = dependentFormSlice.actions;
 export default dependentFormSlice.reducer;

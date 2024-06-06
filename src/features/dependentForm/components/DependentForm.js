@@ -1,12 +1,21 @@
-import React from 'react';
+import { useEffect, React } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addInput, removeInput, updateInputData } from '../../dependentForm/dependentFormSlice';
+import { addInput, removeInput, updateInputData, setValue } from '../../dependentForm/dependentFormSlice';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
+
 
 const DependentForm = () => {
   const dispatch = useDispatch();
   const formInputs = useSelector(state => state.dependentForm.formInputs);
+
+  // Set initial value from sessionStorage if available
+  useEffect(() => {
+    const savedState = JSON.parse(sessionStorage.getItem('state'));
+    if (savedState && savedState.dependentForm) {
+      dispatch(setValue(savedState.dependentForm));
+    }
+  }, [dispatch]);
 
   const handleAddInput = () => {
     dispatch(addInput({ id: Date.now().toString(), name: '', age: '' }));
@@ -16,9 +25,10 @@ const DependentForm = () => {
     dispatch(removeInput(id));
   };
 
-    const handleChange = (e) => {
+  const handleChange = (e) => {
     dispatch(updateInputData({ id: e.target.id, field: e.target.name, value: e.target.value }));
   };
+
 
   return (
     <div data-testid="dependent-form">
