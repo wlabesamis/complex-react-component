@@ -4,12 +4,14 @@ runtime: nodejs22
 instance_class: B1  # Customize as needed, e.g., F2 for more resources
 
 handlers:
+- url: /
+  static_files: build/index.html
+  upload: build/index.html
+
 - url: /(.*)
   static_files: build/\1
   upload: build/(.*)
-- url: /.*
-  static_files: build/index.html
-  upload: build/index.html
+
 
 env_variables:
   NODE_ENV: production
