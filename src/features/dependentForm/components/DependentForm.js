@@ -1,8 +1,9 @@
-import React from 'react';
+import { React } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addInput, removeInput, updateInputData } from '../../dependentForm/dependentFormSlice';
+import { addInput, removeInput, updateInputData, resetForm } from '../../dependentForm/dependentFormSlice';
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
+
 
 const DependentForm = () => {
   const dispatch = useDispatch();
@@ -16,9 +17,14 @@ const DependentForm = () => {
     dispatch(removeInput(id));
   };
 
-    const handleChange = (e) => {
+  const handleChange = (e) => {
     dispatch(updateInputData({ id: e.target.id, field: e.target.name, value: e.target.value }));
   };
+
+  const handleReset = () => {
+    dispatch(resetForm());
+  };
+
 
   return (
     <div data-testid="dependent-form">
@@ -44,16 +50,14 @@ const DependentForm = () => {
             onChange={handleChange}
             data-testid={`input-age-${input.id}`}
           />
-          {formInputs.length > 1 && index !== 0 && (
-            <Button
-              name={`remove_${input.id}`}
-              type="button"
-              onClick={() => handleRemoveInput(input.id)}
-              data-testid={`remove-button-${input.id}`}
-            >
-              Remove
-            </Button>
-          )}
+          <Button
+            name={`remove_${input.id}`}
+            type="button"
+            onClick={() => handleRemoveInput(input.id)}
+            data-testid={`remove-button-${input.id}`}
+          >
+            Remove
+          </Button>
         </div>
       ))}
       <Button
@@ -63,6 +67,14 @@ const DependentForm = () => {
         data-testid="add-button"
       >
         Add
+      </Button>
+      <Button
+        name={`reset-button`}
+        type="button"
+        onClick={handleReset}
+        data-testid={`reeset-button`}
+      >
+        Reset
       </Button>
     </div>
   );
