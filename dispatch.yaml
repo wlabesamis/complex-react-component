@@ -1,0 +1,9 @@
+dispatch:
+  - url: "www.osposstore.online/*"
+    service: frontend
+  - url: "api.osposstore.online/*"
+    service: api
+  - url: "api-staging.osposstore.online/*"
+    service: api-staging
+  - url: "api-dev.osposstore.online/*"
+    service: api-dev
